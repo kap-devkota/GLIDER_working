@@ -1,0 +1,6 @@
+def entrez_dict(map_loc):
+    """
+    This function constructs the map between protein symbol and its corresponding Entrez ID.
+    It returns the Symbol->Entrez and Entrez->Symbol dictionaries.
+    The map file is located at:
+    """
