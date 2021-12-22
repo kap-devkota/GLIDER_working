@@ -18,7 +18,7 @@ def individual_k_acc(k_ratios,
     # Compute the average k-value, and use it to generate the actual k-scores.
     avg_k    = np.average(list(glide_net.degree()))
     k_choices = [int(k * avg_k) for k in k_ratios]
-    
+
     """
     Get neighbors 
     """
