@@ -1,30 +1,49 @@
 import numpy as np
 
 
-def individual_k_acc(k_choices,
+def individual_k_acc(k_ratios,
                      prots,
-                     glide_mat,
+                     glide_net,
                      prot_go_map):
     """
-    Functions that chooses the best k among the choices listed in `k_choices`. Accuracy 
+    Functions that chooses the best k among the choices listed in `k_ratios`. Accuracy 
     is the preferred metric of choice
 
     k_choices   - [int] of k neighbors
     prots       - [proteins]
-    glide_mat   - A_nxn matrix of glide similarity
+    glide_net   - network formed from GLIDE scores in the algorithm described in the paper. A networkx object
     prot_go_map - map prot -> [GO]
     """
 
-    sorted_mat = np.argsort(-glide_mat, axis = 1)
-
+    # Compute the average k-value, and use it to generate the actual k-scores.
+    avg_k    = np.average(list(glide_net.degree()))
+    k_choices = [int(k * avg_k) for k in k_ratios]
+    
+    """
+    Get neighbors 
+    """
+    prot_neighbors = {}
+    for p in prots:
+        # Get neighbors
+        prot_neighbors[p] = sorted(glide_net[p].items(),
+                                   reverse = True,
+                                   key = lambda edge: edge[1]["weight"])        
+    
     def get_acc(prot, k):
         """
-        Given protein, given by `prot` and the number of `k`, returns the 
-        accuracy. 
+        Given a protein given by prot and a k-value, return the accuracy
         """
-        neighbors   = sorted_mat[prot][:k]
+
         labels_dict = {}
-        for n in neighbors:
+
+        """
+        Find the k nearest neighbors.
+        """
+        
+        neighbors   = prot_neighbors[prot]
+        if len(neighbors) > k:
+            neighbors = neighbors[: k]
+        for n, _ in neighbors:
             # Ignore neighbors with no go association available
             if n not in prot_go_map:
                 continue
