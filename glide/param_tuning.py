@@ -82,4 +82,4 @@ def individual_k_acc(k_ratios,
     """
     Return accuracy of the individual k-values.
     """
-    return k_acc
+    return k_choices, k_acc
