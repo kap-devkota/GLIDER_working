@@ -4,7 +4,8 @@ import numpy as np
 def individual_k_acc(k_ratios,
                      prots,
                      glide_net,
-                     prot_go_map):
+                     prot_go_map,
+                     verbose = False):
     """
     Functions that chooses the best k among the choices listed in `k_ratios`. Accuracy 
     is the preferred metric of choice
@@ -14,11 +15,16 @@ def individual_k_acc(k_ratios,
     glide_net   - network formed from GLIDE scores in the algorithm described in the paper. A networkx object
     prot_go_map - map prot -> [GO]
     """
-
+    def log(strng):
+        if verbose:
+            print(strng)
+    
     # Compute the average k-value, and use it to generate the actual k-scores.
     avg_k    = np.average(list(glide_net.degree()))
     k_choices = [int(k * avg_k) for k in k_ratios]
 
+    log(f" Choices of k: {k_choices}")
+    
     """
     Get neighbors 
     """
