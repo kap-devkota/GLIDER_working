@@ -20,7 +20,7 @@ def individual_k_acc(k_ratios,
             print(strng)
     
     # Compute the average k-value, and use it to generate the actual k-scores.
-    avg_k    = np.average(list(glide_net.degree(prots)))
+    avg_k    = np.average(list(glide_net.degree()))
     k_choices = [int(k * avg_k) for k in k_ratios]
     log(f"Average degree: {avg_k}")
     log(f" Choices of k: {k_choices}")
@@ -67,9 +67,9 @@ def individual_k_acc(k_ratios,
         return 1 if best_label in prot_go_map[prot] else 0
     
     k_acc  = []
-    counts = 0 
     for k in k_choices:
         acc = 0.0
+        counts = 0 
         for prot in prots:
             # If no go association available, ignore
             if prot not in prot_go_map:
