@@ -20,9 +20,9 @@ def individual_k_acc(k_ratios,
             print(strng)
     
     # Compute the average k-value, and use it to generate the actual k-scores.
-    avg_k    = np.average(list(glide_net.degree()))
+    avg_k    = np.average(list(glide_net.degree(prots)))
     k_choices = [int(k * avg_k) for k in k_ratios]
-
+    log(f"Average degree: {avg_k}")
     log(f" Choices of k: {k_choices}")
     
     """
