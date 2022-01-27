@@ -9,7 +9,7 @@ def individual_k_acc(k_ratios,
     """
     Functions that chooses the best k among the choices listed in `k_ratios`. Accuracy 
     is the preferred metric of choice
-
+`
     k_choices   - [int] of k neighbors
     prots       - [proteins]
     glide_net   - network formed from GLIDE scores in the algorithm described in the paper. A networkx object
@@ -45,7 +45,6 @@ def individual_k_acc(k_ratios,
         """
         Find the k nearest neighbors.
         """
-        
         neighbors   = prot_neighbors[prot]
         if len(neighbors) > k:
             neighbors = neighbors[: k]
@@ -54,7 +53,7 @@ def individual_k_acc(k_ratios,
             if n not in prot_go_map:
                 continue
             for go in prot_go_map[n]:
-                labels_dict[go] = 1 if go not in prot_go_map else labels_dict[go] + 1
+                labels_dict[go] = 1 if go not in labels_dict else labels_dict[go] + 1
 
         # If the neighbors did not produce any GO association, return 0
         if len(labels_dict) == 0:
